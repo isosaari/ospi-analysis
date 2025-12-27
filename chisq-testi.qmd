@@ -1,0 +1,180 @@
+---
+title: "Online Shoppers Purchasing Intention - Analyysi"
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 3
+    code-fold: show
+execute:
+  warning: false
+  message: false
+---
+
+## Johdanto
+
+Tässä analyysissä tutkitaan ihmisten ostoskäyttäytymistä Online Shoppers Purchasing Intention -aineiston perusteella. Aineisto on open data -aineisto ja sisältää yksittäisiä verkkosivuvierailuja kuvaavia havaintoja, joissa on tietoa muun muassa ajankohdasta, kävijätyypistä ja liikenteen lähteestä. Vastemuuttujana toimii Revenue (TRUE/FALSE), joka ilmaisee johtaako vierailu ostotapahtumaan.
+
+Analyysi keskittyy kolmeen tutkimuskysymykseen:
+
+1.  Ostavatko ihmiset todennäköisemmin viikonlopuisin vai arkena?
+2.  Onko palaavilla asiakkailla parempi konversioprosentti kuin uusilla?
+3.  Riippuuko osto siitä, mistä kanavasta asiakas tuli?
+
+Analyysin perussmenetelmänä on χ²-testi, joka kertoo meille ainoastaan mahdollisen riippuvuuden eri muuttujien välillä. Se ei kuitenkaan kerro meille kausaliteetistä, ja sen päättelemiseksi teemme esimerkiksi todennäköisyystaulukkoja.
+
+```{r}
+#| label: load-data
+#| include: false
+
+# ladataan data
+OSPI <- read.csv("online_shoppers_intention.csv")
+
+# Katsotaan aineiston perusrakennetta
+str(OSPI)
+head(OSPI)
+```
+
+## Analyysi 1: Viikonloppu vs. arkipäivä
+
+Tutkitaan, onko ostojen todennäköisyydessä eroa viikonlopun ja arkipäivien välillä.
+
+```{r}
+#| label: analysis-weekend
+#| echo: true
+
+
+# Suoritetaan chi-square testi
+tab1 <- table(OSPI$Weekend, OSPI$Revenue)
+testi1 <- chisq.test(tab1)
+tulokset1 <- c(testi1$statistic, testi1$p.value)
+names(tulokset1) <- c("Chi-square", "p-arvo")
+tulokset1
+```
+
+Huomataan, että nollahypoteesi hylätään kaikilla yleisesti käytössä olevilla merkitsevyystasoilla ja todetaan, että ostojen ja viikonlopun välillä on tilastollinen riippuvuus.
+
+Tarkastellaan tarkemmin tätä tilannetta rakentamalla todennäköisyystaulukko:
+
+```{r}
+#| label: prop-weekend
+#| echo: true
+
+
+prop1 <- round(100 * prop.table(tab1, margin = 1), 1)
+rownames(prop1) <- c("Arkipäivä", "Viikonloppu")
+colnames(prop1) <- c("Ei ostoa (%)", "Osto (%)")
+prop1
+```
+
+Yllä olevasta taulukosta voidaan todeta, että viikonloppuna käyneiden asiakkaiden konversioprosentti on korkeampi kuin arkipäivinä. Huomattavaa on kuitenkin, että vaikka viikonloppuna on korkeampi ostoprosentti kuin arkisin, ero on vain noin kolme prosenttiyksikköä.
+
+## Analyysi 2: Uudet vs. palaavat asiakkaat
+
+Tutkitaan, onko palaavilla asiakkailla parempi konversioprosentti kuin uusilla.
+
+```{r}
+#| label: analysis-visitor-type
+#| echo: true
+
+# Suoritetaan chi-square testi
+tab2 <- table(OSPI$VisitorType == "Returning_Visitor", OSPI$Revenue)
+testi2 <- chisq.test(tab2)
+tulokset2 <- c(testi2$statistic, testi2$p.value)
+names(tulokset2) <- c("Chi-square", "p-arvo")
+round(tulokset2, digits = 10)
+```
+
+Huomataan, että p-arvo on käytännössä 0, joten nollahypoteesi hylätään ja todetaan, että tilastollinen yhteys löytyy. Tarkastellaan tätä taas todennäköisyystaulukossa:
+
+```{r}
+#| label: prop-visitor-type
+#| echo: true
+
+# Lasketaan prosenttiosuudet
+prop2 <- round(100 * prop.table(tab2, margin = 1), 1)
+rownames(prop2) <- c("Uusi asiakas", "Vanha asiakas")
+colnames(prop2) <- c("Ei ostoa (%)", "Osto (%)")
+prop2
+```
+
+Huomataan, että konversio on selvästi korkeampi uusilla asiakkailla. Aineisto ei mahdollista syiden tarkempaa tarkastelua.
+
+## Analyysi 3: Liikennetyyppi ja osto
+
+Tutkitaan, riippuuko osto siitä, mistä kanavasta asiakas tuli.
+
+```{r}
+#| label: analysis-traffic-type
+#| echo: true
+
+
+# Suoritetaan chi-square testi
+tab3 <- table(OSPI$TrafficType, OSPI$Revenue)
+testi3 <- chisq.test(tab3)
+
+tulokset3 <- c(testi3$statistic, testi3$p.value)
+names(tulokset3) <- c("Chi-square", "p-arvo")
+round(tulokset3, digits=5)
+```
+
+Osa liikennelähteistä on harvinaisia, minkä vuoksi joissakin ristiintaulukon soluissa odotettu havaintomäärä jää pieneksi. Tästä syystä χ²-testin tulos voi vääristyä. Testisuureen suuruus ja p-arvon pienyys kuitenkin voivat viitata siihen, että tässä olisi tilastollinen yhteys.
+
+Tarkastellaan parhaita kanavia:
+
+```{r}
+#| label: conversion-rates
+#| echo: true
+
+# Lasketaan konversioprosentit
+prop3 <- 100 * prop.table(tab3, margin = 1)
+conv <- round(prop3[, "TRUE"], 1)
+conv_sorted <- sort(conv, decreasing = TRUE)
+
+# 5 parasta konversioprosenttia
+head(conv_sorted, 5)
+```
+
+Huomataan, että Traffic type 16:lla on paras konversioprosentti, mutta kävijämäärät ovat pieniä, mikä tekee konversiosta epäluotettavan.
+
+### Yhteenveto myyntikanavista
+
+Luodaan yhteenveto myyntikanavista, joka ottaa huomioon sekä konversioprosentin että kävijämäärän.
+
+```{r}
+#| label: traffic-summary
+#| echo: true
+
+# Luodaan yhteenveto
+traffic_summary <- data.frame(
+  TrafficType = names(table(OSPI$TrafficType)),
+  Visits = as.vector(table(OSPI$TrafficType))
+)
+
+purchases <- as.vector(
+  tapply(OSPI$Revenue, OSPI$TrafficType, sum)
+)
+
+traffic_summary$Purchases <- purchases
+traffic_summary$ConversionRate <- round(
+  100 * traffic_summary$Purchases / traffic_summary$Visits, 1
+)
+
+# Järjestetään ostojen mukaan
+print(
+  traffic_summary[order(traffic_summary$Purchases, decreasing = TRUE), ],
+  row.names = FALSE
+)
+```
+
+**Tulkinta:** Traffic type 2 näyttää parhaimmalta vaihtoehdolta myynnin kannalta, kun otetaan huomioon sekä konversioprosentti että kävijämäärä. Kun katsotaan 5 parasta konversioprosenttia, traffic type 2 vaikuttaa varsin hyvältä myyntialustalta ottaen huomioon, että kävijämäärä on samalla myös lähteistä suurin.
+
+## Yhteenveto
+
+Analyysin tulokset osoittavat:
+
+1.  **Viikonloppu vs. arkipäivä:** Viikonloppuna on hieman korkeampi konversioprosentti kuin arkipäivinä, mutta ero on pieni (noin 3 prosenttiyksikköä).
+
+2.  **Uudet vs. palaavat asiakkaat:** Uusilla asiakkailla on selvästi korkeampi konversioprosentti kuin palaavilla asiakkailla.
+
+3.  **Liikennetyyppi:** Traffic type 2 on paras myyntikanava, kun otetaan huomioon sekä konversioprosentti että kävijämäärä. Mahdollisia muita kuluja ei tässä analyysissä oteta huomioon.
