@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Online Shoppers Purchasing Intention - Analyysi</title>
+<title>Online Shoppers Purchasing Intention - Analysis</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -118,14 +118,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#johdanto" id="toc-johdanto" class="nav-link active" data-scroll-target="#johdanto">Johdanto</a></li>
-  <li><a href="#analyysi-1-viikonloppu-vs.-arkipäivä" id="toc-analyysi-1-viikonloppu-vs.-arkipäivä" class="nav-link" data-scroll-target="#analyysi-1-viikonloppu-vs.-arkipäivä">Analyysi 1: Viikonloppu vs.&nbsp;arkipäivä</a></li>
-  <li><a href="#analyysi-2-uudet-vs.-palaavat-asiakkaat" id="toc-analyysi-2-uudet-vs.-palaavat-asiakkaat" class="nav-link" data-scroll-target="#analyysi-2-uudet-vs.-palaavat-asiakkaat">Analyysi 2: Uudet vs.&nbsp;palaavat asiakkaat</a></li>
-  <li><a href="#analyysi-3-liikennetyyppi-ja-osto" id="toc-analyysi-3-liikennetyyppi-ja-osto" class="nav-link" data-scroll-target="#analyysi-3-liikennetyyppi-ja-osto">Analyysi 3: Liikennetyyppi ja osto</a>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#analysis-1-weekend-vs.-weekday" id="toc-analysis-1-weekend-vs.-weekday" class="nav-link" data-scroll-target="#analysis-1-weekend-vs.-weekday">Analysis 1: Weekend vs.&nbsp;Weekday</a></li>
+  <li><a href="#analysis-2-new-vs.-returning-customers" id="toc-analysis-2-new-vs.-returning-customers" class="nav-link" data-scroll-target="#analysis-2-new-vs.-returning-customers">Analysis 2: New vs.&nbsp;Returning Customers</a></li>
+  <li><a href="#analysis-3-traffic-type-and-purchase" id="toc-analysis-3-traffic-type-and-purchase" class="nav-link" data-scroll-target="#analysis-3-traffic-type-and-purchase">Analysis 3: Traffic type and purchase</a>
   <ul class="collapse">
-  <li><a href="#yhteenveto-myyntikanavista" id="toc-yhteenveto-myyntikanavista" class="nav-link" data-scroll-target="#yhteenveto-myyntikanavista">Yhteenveto myyntikanavista</a></li>
+  <li><a href="#sales-channel-summary" id="toc-sales-channel-summary" class="nav-link" data-scroll-target="#sales-channel-summary">Sales channel summary</a></li>
   </ul></li>
-  <li><a href="#yhteenveto" id="toc-yhteenveto" class="nav-link" data-scroll-target="#yhteenveto">Yhteenveto</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
   </ul>
 </nav>
     </div>
@@ -134,7 +134,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Online Shoppers Purchasing Intention - Analyysi</h1>
+<h1 class="title">Online Shoppers Purchasing Intention - Analysis</h1>
 </div>
 
 
@@ -151,121 +151,121 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="johdanto" class="level2">
-<h2 class="anchored" data-anchor-id="johdanto">Johdanto</h2>
-<p>Tässä analyysissä tutkitaan ihmisten ostoskäyttäytymistä Online Shoppers Purchasing Intention -aineiston perusteella. Aineisto on open data -aineisto ja sisältää yksittäisiä verkkosivuvierailuja kuvaavia havaintoja, joissa on tietoa muun muassa ajankohdasta, kävijätyypistä ja liikenteen lähteestä. Vastemuuttujana toimii Revenue (TRUE/FALSE), joka ilmaisee johtaako vierailu ostotapahtumaan.</p>
-<p>Analyysi keskittyy kolmeen tutkimuskysymykseen:</p>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>This analysis examines customer shopping behavior using the Online Shoppers Purchasing Intention dataset. The dataset is open data and contains observations describing individual website visits with information such as timing, visitor type, and traffic source. The response variable is Revenue (TRUE/FALSE), which indicates whether a visit leads to a purchase.</p>
+<p>The analysis focuses on three research questions:</p>
 <ol type="1">
-<li>Ostavatko ihmiset todennäköisemmin viikonlopuisin vai arkena?</li>
-<li>Onko palaavilla asiakkailla parempi konversioprosentti kuin uusilla?</li>
-<li>Riippuuko osto siitä, mistä kanavasta asiakas tuli?</li>
+<li>Are people more likely to buy on weekends or weekdays?</li>
+<li>Do returning customers have a better conversion rate than new customers?</li>
+<li>Does purchasing depend on the channel the customer came from?</li>
 </ol>
-<p>Analyysin perussmenetelmänä on χ²-testi, joka kertoo meille ainoastaan mahdollisen riippuvuuden eri muuttujien välillä. Se ei kuitenkaan kerro meille kausaliteetistä, ja sen päättelemiseksi teemme esimerkiksi todennäköisyystaulukkoja.</p>
+<p>The main method is the χ² test, which only tells us about possible dependence between variables. It does not reveal causality, so we interpret the results with, for example, probability tables.</p>
 </section>
-<section id="analyysi-1-viikonloppu-vs.-arkipäivä" class="level2">
-<h2 class="anchored" data-anchor-id="analyysi-1-viikonloppu-vs.-arkipäivä">Analyysi 1: Viikonloppu vs.&nbsp;arkipäivä</h2>
-<p>Tutkitaan, onko ostojen todennäköisyydessä eroa viikonlopun ja arkipäivien välillä.</p>
+<section id="analysis-1-weekend-vs.-weekday" class="level2">
+<h2 class="anchored" data-anchor-id="analysis-1-weekend-vs.-weekday">Analysis 1: Weekend vs.&nbsp;Weekday</h2>
+<p>We examine whether purchase likelihood differs between weekends and weekdays.</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Suoritetaan chi-square testi</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run chi-square test</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>tab1 <span class="ot">&lt;-</span> <span class="fu">table</span>(OSPI<span class="sc">$</span>Weekend, OSPI<span class="sc">$</span>Revenue)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>testi1 <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(tab1)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>tulokset1 <span class="ot">&lt;-</span> <span class="fu">c</span>(testi1<span class="sc">$</span>statistic, testi1<span class="sc">$</span>p.value)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(tulokset1) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Chi-square"</span>, <span class="st">"p-arvo"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(tulokset1) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Chi-square"</span>, <span class="st">"p-value"</span>)</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>tulokset1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>  Chi-square       p-arvo 
+<pre><code>  Chi-square      p-value 
 10.390978320  0.001266325 </code></pre>
 </div>
 </div>
-<p>Huomataan, että nollahypoteesi hylätään kaikilla yleisesti käytössä olevilla merkitsevyystasoilla ja todetaan, että ostojen ja viikonlopun välillä on tilastollinen riippuvuus.</p>
-<p>Tarkastellaan tarkemmin tätä tilannetta rakentamalla todennäköisyystaulukko:</p>
+<p>We reject the null hypothesis at all commonly used significance levels, indicating a statistical relationship between purchases and weekends.</p>
+<p>Let’s look at this more closely by creating a probability table:</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>prop1 <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">prop.table</span>(tab1, <span class="at">margin =</span> <span class="dv">1</span>), <span class="dv">1</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(prop1) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Arkipäivä"</span>, <span class="st">"Viikonloppu"</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(prop1) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Ei ostoa (%)"</span>, <span class="st">"Osto (%)"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(prop1) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Weekday"</span>, <span class="st">"Weekend"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(prop1) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"No purchase (%)"</span>, <span class="st">"Purchase (%)"</span>)</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>prop1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>             
-              Ei ostoa (%) Osto (%)
-  Arkipäivä           85.1     14.9
-  Viikonloppu         82.6     17.4</code></pre>
+<pre><code>         
+          No purchase (%) Purchase (%)
+  Weekday            85.1         14.9
+  Weekend            82.6         17.4</code></pre>
 </div>
 </div>
-<p>Yllä olevasta taulukosta voidaan todeta, että viikonloppuna käyneiden asiakkaiden konversioprosentti on korkeampi kuin arkipäivinä. Huomattavaa on kuitenkin, että vaikka viikonloppuna on korkeampi ostoprosentti kuin arkisin, ero on vain noin kolme prosenttiyksikköä.</p>
+<p>The table shows that visitors during the weekend have a higher conversion rate than on weekdays. Notably, while weekend conversion is higher than on weekdays, the difference is only about three percentage points.</p>
 </section>
-<section id="analyysi-2-uudet-vs.-palaavat-asiakkaat" class="level2">
-<h2 class="anchored" data-anchor-id="analyysi-2-uudet-vs.-palaavat-asiakkaat">Analyysi 2: Uudet vs.&nbsp;palaavat asiakkaat</h2>
-<p>Tutkitaan, onko palaavilla asiakkailla parempi konversioprosentti kuin uusilla.</p>
+<section id="analysis-2-new-vs.-returning-customers" class="level2">
+<h2 class="anchored" data-anchor-id="analysis-2-new-vs.-returning-customers">Analysis 2: New vs.&nbsp;Returning Customers</h2>
+<p>We examine whether returning customers have a better conversion rate than new customers.</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Suoritetaan chi-square testi</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run chi-square test</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>tab2 <span class="ot">&lt;-</span> <span class="fu">table</span>(OSPI<span class="sc">$</span>VisitorType <span class="sc">==</span> <span class="st">"Returning_Visitor"</span>, OSPI<span class="sc">$</span>Revenue)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>testi2 <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(tab2)</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>tulokset2 <span class="ot">&lt;-</span> <span class="fu">c</span>(testi2<span class="sc">$</span>statistic, testi2<span class="sc">$</span>p.value)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(tulokset2) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Chi-square"</span>, <span class="st">"p-arvo"</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(tulokset2) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Chi-square"</span>, <span class="st">"p-value"</span>)</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(tulokset2, <span class="at">digits =</span> <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>Chi-square     p-arvo 
+<pre><code>Chi-square    p-value 
   132.1426     0.0000 </code></pre>
 </div>
 </div>
-<p>Huomataan, että p-arvo on käytännössä 0, joten nollahypoteesi hylätään ja todetaan, että tilastollinen yhteys löytyy. Tarkastellaan tätä taas todennäköisyystaulukossa:</p>
+<p>The p-value is essentially 0, so the null hypothesis is rejected and we conclude there is a statistical relationship. Let’s review this again in a probability table:</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Lasketaan prosenttiosuudet</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate percentages</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>prop2 <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">prop.table</span>(tab2, <span class="at">margin =</span> <span class="dv">1</span>), <span class="dv">1</span>)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(prop2) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Uusi asiakas"</span>, <span class="st">"Vanha asiakas"</span>)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(prop2) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Ei ostoa (%)"</span>, <span class="st">"Osto (%)"</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(prop2) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"New customer"</span>, <span class="st">"Returning customer"</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(prop2) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"No purchase (%)"</span>, <span class="st">"Purchase (%)"</span>)</span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>prop2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>               
-                Ei ostoa (%) Osto (%)
-  Uusi asiakas          75.4     24.6
-  Vanha asiakas         86.1     13.9</code></pre>
+<pre><code>                    
+                     No purchase (%) Purchase (%)
+  New customer                  75.4         24.6
+  Returning customer            86.1         13.9</code></pre>
 </div>
 </div>
-<p>Huomataan, että konversio on selvästi korkeampi uusilla asiakkailla. Aineisto ei mahdollista syiden tarkempaa tarkastelua.</p>
+<p>The conversion rate is clearly higher for new customers. The data do not allow a more detailed look at the reasons.</p>
 </section>
-<section id="analyysi-3-liikennetyyppi-ja-osto" class="level2">
-<h2 class="anchored" data-anchor-id="analyysi-3-liikennetyyppi-ja-osto">Analyysi 3: Liikennetyyppi ja osto</h2>
-<p>Tutkitaan, riippuuko osto siitä, mistä kanavasta asiakas tuli.</p>
+<section id="analysis-3-traffic-type-and-purchase" class="level2">
+<h2 class="anchored" data-anchor-id="analysis-3-traffic-type-and-purchase">Analysis 3: Traffic type and purchase</h2>
+<p>We examine whether purchasing depends on the channel from which the customer arrived.</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Suoritetaan chi-square testi</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run chi-square test</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>tab3 <span class="ot">&lt;-</span> <span class="fu">table</span>(OSPI<span class="sc">$</span>TrafficType, OSPI<span class="sc">$</span>Revenue)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>testi3 <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(tab3)</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>tulokset3 <span class="ot">&lt;-</span> <span class="fu">c</span>(testi3<span class="sc">$</span>statistic, testi3<span class="sc">$</span>p.value)</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(tulokset3) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Chi-square"</span>, <span class="st">"p-arvo"</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(tulokset3) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Chi-square"</span>, <span class="st">"p-value"</span>)</span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(tulokset3, <span class="at">digits=</span><span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>Chi-square     p-arvo 
+<pre><code>Chi-square    p-value 
   373.1456     0.0000 </code></pre>
 </div>
 </div>
-<p>Osa liikennelähteistä on harvinaisia, minkä vuoksi joissakin ristiintaulukon soluissa odotettu havaintomäärä jää pieneksi. Tästä syystä χ²-testin tulos voi vääristyä. Testisuureen suuruus ja p-arvon pienyys kuitenkin voivat viitata siihen, että tässä olisi tilastollinen yhteys.</p>
-<p>Tarkastellaan parhaita kanavia:</p>
+<p>Some traffic sources are rare, so the expected count in some cells of the contingency table is small. For that reason the χ² test result can be distorted. The large test statistic and small p-value nevertheless suggest there may be a statistical relationship here.</p>
+<p>Let’s look at the best channels:</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Lasketaan konversioprosentit</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate conversion rates</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>prop3 <span class="ot">&lt;-</span> <span class="dv">100</span> <span class="sc">*</span> <span class="fu">prop.table</span>(tab3, <span class="at">margin =</span> <span class="dv">1</span>)</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>conv <span class="ot">&lt;-</span> <span class="fu">round</span>(prop3[, <span class="st">"TRUE"</span>], <span class="dv">1</span>)</span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>conv_sorted <span class="ot">&lt;-</span> <span class="fu">sort</span>(conv, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 5 parasta konversioprosenttia</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Top 5 conversion rates</span></span>
 <span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(conv_sorted, <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
@@ -273,14 +273,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 33.3 30.0 27.7 25.3 21.6 </code></pre>
 </div>
 </div>
-<p>Huomataan, että Traffic type 16:lla on paras konversioprosentti, mutta kävijämäärät ovat pieniä, mikä tekee konversiosta epäluotettavan.</p>
-<section id="yhteenveto-myyntikanavista" class="level3">
-<h3 class="anchored" data-anchor-id="yhteenveto-myyntikanavista">Yhteenveto myyntikanavista</h3>
-<p>Luodaan yhteenveto myyntikanavista, joka ottaa huomioon sekä konversioprosentin että kävijämäärän.</p>
+<p>Traffic type 16 has the best conversion rate, but the number of visitors is small, which makes the conversion unreliable.</p>
+<section id="sales-channel-summary" class="level3">
+<h3 class="anchored" data-anchor-id="sales-channel-summary">Sales channel summary</h3>
+<p>Let’s create a sales channel summary that accounts for both conversion rate and number of visitors.</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Luodaan yhteenveto</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Build summary</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>traffic_summary <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">TrafficType =</span> <span class="fu">names</span>(<span class="fu">table</span>(OSPI<span class="sc">$</span>TrafficType)),</span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">Visits =</span> <span class="fu">as.vector</span>(<span class="fu">table</span>(OSPI<span class="sc">$</span>TrafficType))</span>
@@ -295,7 +295,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  <span class="dv">100</span> <span class="sc">*</span> traffic_summary<span class="sc">$</span>Purchases <span class="sc">/</span> traffic_summary<span class="sc">$</span>Visits, <span class="dv">1</span></span>
 <span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Järjestetään ostojen mukaan</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Order by purchases</span></span>
 <span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(</span>
 <span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>  traffic_summary[<span class="fu">order</span>(traffic_summary<span class="sc">$</span>Purchases, <span class="at">decreasing =</span> <span class="cn">TRUE</span>), ],</span>
 <span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">row.names =</span> <span class="cn">FALSE</span></span>
@@ -325,16 +325,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           18     10         0            0.0</code></pre>
 </div>
 </div>
-<p><strong>Tulkinta:</strong> Traffic type 2 näyttää parhaimmalta vaihtoehdolta myynnin kannalta, kun otetaan huomioon sekä konversioprosentti että kävijämäärä. Kun katsotaan 5 parasta konversioprosenttia, traffic type 2 vaikuttaa varsin hyvältä myyntialustalta ottaen huomioon, että kävijämäärä on samalla myös lähteistä suurin.</p>
+<p><strong>Interpretation:</strong> Traffic type 2 appears to be the best option for sales when both conversion rate and visitor count are considered. Looking at the five best conversion rates, traffic type 2 seems like a solid sales channel, especially given that it also has the largest number of visitors.</p>
 </section>
 </section>
-<section id="yhteenveto" class="level2">
-<h2 class="anchored" data-anchor-id="yhteenveto">Yhteenveto</h2>
-<p>Analyysin tulokset osoittavat:</p>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>The analysis shows:</p>
 <ol type="1">
-<li><p><strong>Viikonloppu vs.&nbsp;arkipäivä:</strong> Viikonloppuna on hieman korkeampi konversioprosentti kuin arkipäivinä, mutta ero on pieni (noin 3 prosenttiyksikköä).</p></li>
-<li><p><strong>Uudet vs.&nbsp;palaavat asiakkaat:</strong> Uusilla asiakkailla on selvästi korkeampi konversioprosentti kuin palaavilla asiakkailla.</p></li>
-<li><p><strong>Liikennetyyppi:</strong> Traffic type 2 on paras myyntikanava, kun otetaan huomioon sekä konversioprosentti että kävijämäärä. Mahdollisia muita kuluja ei tässä analyysissä oteta huomioon.</p></li>
+<li><p><strong>Weekend vs.&nbsp;weekday:</strong> The conversion rate is slightly higher on weekends than on weekdays, but the difference is small (about three percentage points).</p></li>
+<li><p><strong>New vs.&nbsp;returning customers:</strong> New customers have a clearly higher conversion rate than returning customers.</p></li>
+<li><p><strong>Traffic type:</strong> Traffic type 2 is the best sales channel when both conversion rate and visitor count are considered. Possible additional costs are not considered in this analysis.</p></li>
 </ol>
 
 
