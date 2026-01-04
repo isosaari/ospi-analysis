@@ -9,6 +9,7 @@ format:
 execute:
   warning: false
   message: false
+  author: Arttu Isosaari
 ---
 
 ## Introduction
