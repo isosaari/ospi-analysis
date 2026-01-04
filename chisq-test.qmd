@@ -1,5 +1,6 @@
 ---
 title: "Online Shoppers Purchasing Intention - Analysis"
+author: Arttu Isosaari
 format:
   html:
     theme: cosmo
@@ -9,7 +10,6 @@ format:
 execute:
   warning: false
   message: false
-  author: Arttu Isosaari
 ---
 
 ## Introduction
